@@ -1,0 +1,90 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block title %} {{user.first_name}}'s Dashboard {% endblock %}
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+{% block content %}
+<div class="top-block">
+    <div class="img-container" style="position:relative;">
+        <img class="prof-img" src="{% if profile.photo %} {{profile.photo.url}}  {% elif profile.gender == 'FM' %}{% static 'assets/img/avatar5.png' %} {% elif profile.gender == 'ML' %} {% static 'assets/img/avatar2.png' %} {% endif %}" alt="">
+    </div>
+    <div class="prof-main">
+        <div class="namebox"> <span class="firstname">{{profile.first_name}}</span> <span class="lastname">{{profile.last_name}}</span> </div>
+        <div class="box-red w3-card ">
+            <div class="gender w3-margin-left"> <span class=" pointer w3-large">Gender</span> <span class="w3-margin-left point"> {{profile.get_gender_display}}</span></div>
+            <div class="classbox w3-margin-left"> <span class=" pointer w3-large">Class</span>  <span class="w3-margin-left point">{{profile.get_cls_display}}</span>  {% if user.department %} <span class=" point">{{user.get_department_display}}{% endif %}</span></div>
+            <div class="w3-margin-left"> <span class="pointer w3-large"> Date of birth </span> <span class="w3-margin-left point">{{profile.date_of_birth}}</span></div>
+            <div class="w3-margin-left"> <span class="pointer w3-large"> Age</span> <span class="w3-margin-left point">{{profile.get_age}}</span></div>
+        </div>
+        <p  class="w3-hide-large w3-button w3-hover-blue w3-yellow">Upload Profile photo </p>
+        <div style="display: flex;">
+            <a href="{% url 'profpic-change' %}" class="w3-hide-small w3-hide-medium w3-button w3-hover-blue w3-yellow">Capture photo </a>
+            <form action="{% url 'profpic-change' %}" enctype="multipart/form-data"  method="post">
+                {%csrf_token%}
+                <input type="file" class="w3-padding" name="photo" accept="image/*" onchange="form.submit()" id="">
+            </form>
+        </div>
+        <div class="w3-red ">
+            <div class="w3-margin-left"> <span class="pointer w3-large"> School Fees </span> <span class="w3-margin-left w3-text-white">{{paid}}</span></div>
+        </div>
+    </div>
+</div>
+<style>
+    .top-block{
+        display: block;
+    }
+    .prof-main{
+        background-color: white;
+        display: block;
+        z-index: 1;
+        position: relative;
+    }
+   
+    .box-red{
+        display: block;
+        background-image: linear-gradient(to right, rgb(37, 36, 91) 0%, rgb(59, 66, 117) 50%, rgb(39, 33, 72) 100%);
+        z-index: 9;
+        color: white;
+        padding: 10px;
+    }
+    .pointer{
+        font-weight: 900;
+    }
+    .point{
+        color: aqua;
+        font-size: 1rem;
+    }
+    .firstname{
+        font-size: 3rem;
+    }
+    .lastname{
+        font-size: 2.5rem;
+    }
+    .firstname, .lastname{
+        color: #370e3860;
+        font-weight: 900;
+        text-transform: capitalize;
+        margin-left: 10px;
+        text-shadow: 2px 2px 5px rgb(52, 52, 116);    
+    }
+    @media screen and (max-width: 799px) {
+        .prof-img{
+            width: 100%;
+        }        
+        .prof-main{
+            width: 100%;
+        }
+    }
+    @media screen and (min-width: 800px) {
+        .top-block{
+            display: flex;
+        }
+        .prof-img{
+            width: 400px;
+            height:400px;
+        }
+        .prof-main{
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}

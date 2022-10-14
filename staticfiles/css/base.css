@@ -1,0 +1,33 @@
+*{
+    box-sizing: border-box;
+}
+a{
+    text-decoration: none;
+}
+p input {
+    padding: 8px;
+    display: block;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    width: 100%
+}
+.sign-button{
+    border: 0.1px solid blue;
+    color:blue;
+    padding: 15px;
+    border-radius: 15px;
+    background-color: white;
+    transition: 1s;
+    
+}
+.sign-button:hover{
+    color:white;
+    background-color: blue;
+    border: 0.1px solid yellow;
+}
+.errorlist{
+    display: block;
+    background-color: red;
+    color: white;
+    list-style-type: none;
+}

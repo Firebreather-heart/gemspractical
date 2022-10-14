@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="whole-container">
+    <div class="all-block">
+        {% for profile in prof %}
+        <div class="top-block w3-margin-bottom">
+            <div class="img-container" style="position:relative;">
+                <img class="prof-img"
+                    src="{% if profile.photo %} {{profile.photo.url}}  {% elif profile.gender == 'FM' %}{% static 'assets/img/avatar5.png' %} {% else %} {% static 'assets/img/avatar2.png' %} {% endif %}"
+                    alt="">
+            </div>
+            <div class="prof-main">
+                <div class="namebox"> <span class="firstname">{{profile.first_name}}</span> <span
+                        class="lastname">{{profile.last_name}}</span> </div>
+                <div class="box-red w3-card ">
+                    <div class="gender w3-margin-left"> <span class=" pointer w3-large">Gender</span> <span
+                            class="w3-margin-left point"> {{profile.get_gender_display}}</span></div>
+                    <div class="classbox w3-margin-left"> <span class=" pointer w3-large">Class</span> <span
+                            class="w3-margin-left point">{{profile.get_cls_display}}</span> {% if user.department %}
+                        <span class=" point">{{user.get_department_display}}{% endif %}</span></div>
+                    <div class="w3-margin-left"> <span class="pointer w3-large"> Date of birth </span> <span
+                            class="w3-margin-left point">{{profile.date_of_birth}}</span></div>
+                    <div class="w3-margin-left"> <span class="pointer w3-large"> Age</span> <span
+                            class="w3-margin-left point">{{profile.get_age}}</span></div>
+                            <a href="{{profile.get_absolute_url}}">See more</a>
+                </div>
+                
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="search-block ">
+        <form action="{% url 'search' %}" method="get">
+            <input type="search" name="q" placeholder="quick search by name" class="w3-input" id="">
+        </form>
+        <div class="">
+            <p>Search by class</p>
+            <p class="w3-hover-white w3-large">Jss 1</p>
+            <p class="w3-hover-white w3-large">Jss 2</p>
+            <p class="w3-hover-white w3-large">Jss 3</p>
+            <p class="w3-hover-white w3-large">Ss 1</p>
+            <p class="w3-hover-white w3-large">Ss 2</p>
+            <p class="w3-hover-white w3-large">Ss 3</p>
+        </div>
+    </div>
+</div>
+<style>
+    .whole-container{
+        display: block;
+        width: 100%;
+    }
+    .all-block{
+        width: 100%;
+    }
+    .search-block {
+        background-image: linear-gradient(to right, rgb(37, 36, 91) 0%, rgb(59, 66, 117) 50%, rgb(39, 33, 72) 100%);
+        color: white;
+        display: none;
+    }
+
+    .top-block {
+        display: block;
+    }
+
+    .prof-main {
+        background-color: white;
+        display: block;
+        z-index: 1;
+        position: relative;
+    }
+
+    .box-red {
+        display: block;
+        background-image: linear-gradient(to right, rgb(37, 36, 91) 0%, rgb(59, 66, 117) 50%, rgb(39, 33, 72) 100%);
+        z-index: 9;
+        color: white;
+        padding: 10px;
+    }
+
+    .pointer {
+        font-weight: 900;
+    }
+
+    .point {
+        color: aqua;
+        font-size: 1rem;
+    }
+
+    .firstname {
+        font-size: 3rem;
+    }
+
+    .lastname {
+        font-size: 2.5rem;
+    }
+
+    .firstname,
+    .lastname {
+        color: #370e3860;
+        font-weight: 900;
+        text-transform: capitalize;
+        margin-left: 10px;
+        text-shadow: 2px 2px 5px rgb(52, 52, 116);
+    }
+
+    @media screen and (max-width: 799px) {
+        .prof-img {
+            width: 100%;
+        }
+
+        .prof-main {
+            width: 100%;
+        }
+    }
+
+    @media screen and (min-width: 800px) {
+        .whole-container {
+            display: flex;
+        }
+
+        .all-block{
+            display: block;
+            width: 80%;
+        }
+        .search-block {
+            width: 20%;
+            height: fit-content;
+            padding: 10px;
+            position: fixed;
+            right: 0;
+            display: block;
+        }
+
+        .top-block {
+            display: flex;
+            
+        }
+
+        .prof-img {
+            width: 400px;
+            height: 400px;
+        }
+
+        .prof-main {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock content %}

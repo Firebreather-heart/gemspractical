@@ -1,0 +1,12 @@
+{% extends 'base.html' %} 
+{% block content %} 
+    <form action="{% url 'search' %}" method="get">
+        {{ filter.form.as_p }}
+        <button type="submit">search</button>
+    </form>
+    <ul>
+        {% for user in filter.qs %} 
+            <li>{{user.first_name}} - {{user.cls}} </li>
+            {% endfor %}
+    </ul>
+{% endblock %}
