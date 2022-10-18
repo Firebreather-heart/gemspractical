@@ -7,6 +7,7 @@ from gemadmin.models import Fee,Payment
 # Create your views here.
 @login_required
 def dashboard(request,):
+    print(request.user.username)
     prof = Profile.objects.get(user = request.user,)
     schfee = Fee(student=request.user, desc='school fees')
     paid = schfee.paid()
