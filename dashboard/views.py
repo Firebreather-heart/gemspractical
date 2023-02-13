@@ -7,25 +7,30 @@ from gemadmin.models import Fee,Payment
 # Create your views here.
 @login_required
 def dashboard(request,):
-    print(request.user.username)
+    #print(request.user.username)
     prof = Profile.objects.get(user = request.user,)
-    schfee = Fee(student=request.user, desc='school fees')
-    paid = schfee.paid()
+    payments = Payment.objects.filter(student=request.user)
+    print(payments)
+    schfee = Fee.objects.get(student = prof.user, desc = 'school fees')
+    paid = schfee.paid
     cont_dict = {
         'profile':prof,
-        'paid':paid
+        'paid':paid,
+        'payments':payments,
     }
     return render(request,'dashboard.html', cont_dict)
 
 @login_required
 @permission_required('is_staff')
 def admin_student_dashboard(request, id):
-    prof = Profile.objects.get(user = request.user, id=id)
-    schfee = Fee(student=request.user, desc='school fees')
-    paid = schfee.paid()
+    prof = Profile.objects.get(id=id)
+    schfee = Fee.objects.get(student = prof.user, desc = 'school fees')
+    payments = Payment.objects.filter(student=request.user)
+    paid = schfee.paid
     cont_dict = {
         'profile':prof,
-        'paid':paid
+        'paid':paid,
+        'payments':payments,
     }
     return render(request,'dashboard.html', cont_dict)
 

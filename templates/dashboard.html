@@ -26,7 +26,20 @@
         <div class="w3-red ">
             <div class="w3-margin-left"> <span class="pointer w3-large"> School Fees </span> <span class="w3-margin-left w3-text-white">{{paid}}</span></div>
         </div>
+        <div>
+            <p>This Account was added to the database on <span class="w3-large w3-text-blue">{{profile.user.date_joined}}</span>, subsequent records follow after this date</p>
+        </div>
     </div>
+</div>
+<div class="w3-margin-top w3-mobile w3-white">
+    <p class="firstname">Payment Log</p>
+    {% for payment in payments %}
+        <div class="w3-card w3-padding w3-blue w3-hover-pale-blue">
+            <p  class="pointer">Date: <span class="point">{{payment.payment_date}}</span></p>
+            <p class="pointer">Description: <span class="point">{{payment.description}}</span></p>
+            <p class="pointer">Amount: <span class="point">{{payment.amount}}</span></p>
+        </div>
+    {% endfor %}
 </div>
 <style>
     .top-block{

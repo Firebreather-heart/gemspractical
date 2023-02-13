@@ -32,7 +32,7 @@ class Fee(models.Model):
     amount = models.PositiveIntegerField(default=17000)
     term = models.CharField(max_length=10, choices = TERM_CHOICES, default='')
     amount_paid = models.PositiveIntegerField(default=0)
-    paid = models.BooleanField(default=False)
+    #paid = models.BooleanField(default=False)
     objects = models.Manager()
     schfeespaid = PaidSchFeeManager()
     schfees_notpaid = UnpaidSchFeeManager()
@@ -59,6 +59,8 @@ class Fee(models.Model):
     def save(self,*args, **kwargs) -> None:
         if self.amount == self.amount_paid:
             self.paid =True 
+        if self.amount < self.amount_paid:
+            raise ValueError("you must have made a mistake, cross check your entry")
         return super().save(*args, **kwargs)
     
 class Payment(models.Model):

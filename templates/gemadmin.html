@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+
 <div class="whole-container">
     <div class="all-block">
         {% for profile in prof %}
@@ -18,41 +19,89 @@
                             class="w3-margin-left point"> {{profile.get_gender_display}}</span></div>
                     <div class="classbox w3-margin-left"> <span class=" pointer w3-large">Class</span> <span
                             class="w3-margin-left point">{{profile.get_cls_display}}</span> {% if user.department %}
-                        <span class=" point">{{user.get_department_display}}{% endif %}</span></div>
+                        <span class=" point">{{user.get_department_display}}{% endif %}</span>
+                    </div>
                     <div class="w3-margin-left"> <span class="pointer w3-large"> Date of birth </span> <span
                             class="w3-margin-left point">{{profile.date_of_birth}}</span></div>
                     <div class="w3-margin-left"> <span class="pointer w3-large"> Age</span> <span
                             class="w3-margin-left point">{{profile.get_age}}</span></div>
-                            <a href="{{profile.get_absolute_url}}">See more</a>
+                    <a href="{{profile.get_absolute_url}}">See more</a>
                 </div>
-                
+                <div>
+                    <form action="{% url 'make_payment' profile.user.id %}" method="post">
+                        {%csrf_token%}
+                        <div style="display: flex;">
+                            <div>
+                                <label class="required" for="id_desc">Desc:</label>
+                                <select class="w3-input w3-round "
+                                    style="width: 150px;border: 1px solid blue;height: 50px;" name="desc" id="id_desc">
+                                    <option value="school fees" selected="">SCH FEES</option>
+
+                                    <option value="uniforms">UNIFORM</option>
+
+                                    <option value="sport wear">SPORTWEAR</option>
+
+                                    <option value="friday wear">FRIDAYWEAR</option>
+
+                                    <option value="lab coat">LABCOAT</option>
+
+                                    <option value="cardigan">CARDIGAN</option>
+
+                                    <option value="hat">HAT</option>
+
+                                    <option value="junior waec">JWAEC</option>
+
+                                    <option value="senior waec">SSCE</option>
+
+                                    <option value="neco">NECO</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="w3-margin-left" for="">Amount</label>
+                                <input class="w3-input w3-round w3-margin-left "
+                                    style="width: 150px;border: 1px solid blue;height: 50px;" type="number"
+                                    name="amount_paid" id="amount_paid">
+                                <input type="hidden" name="user_who" value="{{profile.id}}">
+                            </div>
+                        </div>
+                        <button class="w3-btn w3-blue w3-margin-top" type="submit">Make Payment</button>
+                    </form>
+                </div>
             </div>
         </div>
         {% endfor %}
     </div>
+
     <div class="search-block ">
         <form action="{% url 'search' %}" method="get">
-            <input type="search" name="q" placeholder="quick search by name" class="w3-input" id="">
+            <input type="search" name="student-name" placeholder="quick search by name" class="w3-input" id="">
         </form>
-        <div class="">
+        <div class="class-list">
             <p>Search by class</p>
-            <p class="w3-hover-white w3-large">Jss 1</p>
-            <p class="w3-hover-white w3-large">Jss 2</p>
-            <p class="w3-hover-white w3-large">Jss 3</p>
-            <p class="w3-hover-white w3-large">Ss 1</p>
-            <p class="w3-hover-white w3-large">Ss 2</p>
-            <p class="w3-hover-white w3-large">Ss 3</p>
+            <p class="w3-hover-white w3-large"><a href="{% url 'student_by_class' 'J1' %}">Jss 1</a></p>
+            <p class="w3-hover-white w3-large"><a href="{% url 'student_by_class' 'J2' %}">Jss 2</a></p>
+            <p class="w3-hover-white w3-large"><a href="{% url 'student_by_class' 'J3' %}">Jss 3</a></p>
+            <p class="w3-hover-white w3-large"> <a href="{% url 'student_by_class' 'S1' %}">Ss 1</a></p>
+            <p class="w3-hover-white w3-large"><a href="{% url 'student_by_class' 'S2' %}">Ss 2</a></p>
+            <p class="w3-hover-white w3-large"><a href="{% url 'student_by_class' 'S3' %}">Ss 3</a></p>
         </div>
     </div>
 </div>
+<div class="w3-red  w3-top" id="timecatch">
+    {% for message in messages %}
+    <div {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }} </div>
+    {% endfor %}
+</div>
 <style>
-    .whole-container{
+    .whole-container {
         display: block;
         width: 100%;
     }
-    .all-block{
+
+    .all-block {
         width: 100%;
     }
+
     .search-block {
         background-image: linear-gradient(to right, rgb(37, 36, 91) 0%, rgb(59, 66, 117) 50%, rgb(39, 33, 72) 100%);
         color: white;
@@ -119,10 +168,11 @@
             display: flex;
         }
 
-        .all-block{
+        .all-block {
             display: block;
             width: 80%;
         }
+
         .search-block {
             width: 20%;
             height: fit-content;
@@ -134,7 +184,7 @@
 
         .top-block {
             display: flex;
-            
+
         }
 
         .prof-img {

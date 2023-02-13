@@ -3,3 +3,9 @@
     font-size: large;
     width: 100%;
 }
+a{
+    text-decoration: none;
+}
+.class-list a{
+    display: block;
+}
